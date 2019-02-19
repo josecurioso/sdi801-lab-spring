@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.uniovi.entities.Mark;
 import com.uniovi.entities.User;
 import com.uniovi.services.SecurityService;
 import com.uniovi.services.UsersService;
+import com.uniovi.validators.EditUserFormValidator;
 import com.uniovi.validators.SignUpFormValidator;
 
 @Controller
@@ -29,6 +31,9 @@ public class UsersController {
 	@Autowired
 	private SignUpFormValidator signUpFormValidator;
 
+	@Autowired
+	private EditUserFormValidator editUserFormValidator;
+
 	@RequestMapping("/user/list")
 	public String getListado(Model model) {
 		model.addAttribute("usersList", usersService.getUsers());
@@ -38,11 +43,17 @@ public class UsersController {
 	@RequestMapping(value = "/user/add")
 	public String getUser(Model model) {
 		model.addAttribute("usersList", usersService.getUsers());
+		model.addAttribute("user", new User());
 		return "user/add";
 	}
 
 	@RequestMapping(value = "/user/add", method = RequestMethod.POST)
-	public String setUser(@ModelAttribute User user) {
+	public String setUser(@Validated User user, BindingResult result) {
+		editUserFormValidator.validate(user, result);
+		if (result.hasErrors()) {
+		return "user/add";
+		}
+		
 		usersService.addUser(user);
 		return "redirect:/user/list";
 	}
@@ -67,10 +78,18 @@ public class UsersController {
 	}
 
 	@RequestMapping(value = "/user/edit/{id}", method = RequestMethod.POST)
-	public String setEdit(Model model, @PathVariable Long id, @ModelAttribute User user) {
-		user.setId(id);
-		usersService.addUser(user);
-		return "redirect:/user/details/" + id;
+	public String setEdit(Model model, @PathVariable Long id, @Validated User user, BindingResult result) {
+		editUserFormValidator.validate(user, result);
+		if (result.hasErrors()) {
+		return "user/edit";
+		}
+		
+		User original = usersService.getUser(id);
+		original.setDni(user.getDni());
+		original.setName(user.getName());
+		original.setLastName(user.getLastName());
+		usersService.addUser(original);
+		return "redirect:/user/details/" + id;		
 	}
 
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)

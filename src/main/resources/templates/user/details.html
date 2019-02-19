@@ -8,19 +8,19 @@
 
 
 	<div class="container">
-		<h2 th:text="#{details.mark}"></h2>
+		<h2 th:text="#{details.user}"></h2>
 		<div class="panel panel-default">
 			<div class="panel-heading" th:text="#{list.users.dni}"></div>
-			<div class="panel-body" th:text="${mark.user.dni}">28276</div>
+			<div class="panel-body" th:text="${user.dni}">28276</div>
 		</div>
 		<div class="panel panel-default">
-			<div class="panel-heading" th:text="#{description}"></div>
-			<div class="panel-body" th:text="${mark.description}">
+			<div class="panel-heading" th:text="#{list.users.name}"></div>
+			<div class="panel-body" th:text="${user.name}">
 				Ejercicio 1</div>
 		</div>
 		<div class="panel panel-default">
-			<div class="panel-heading" th:text="#{score}"></div>
-			<div class="panel-body" th:text="${mark.score}">100</div>
+			<div class="panel-heading" th:text="#{list.users.lastName}"></div>
+			<div class="panel-body" th:text="${user.lastName}">Apellidos</div>
 		</div>
 	</div>
 	<footer th:replace="fragments/footer" />
