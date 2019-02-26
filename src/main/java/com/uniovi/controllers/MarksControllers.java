@@ -22,7 +22,7 @@ import com.uniovi.validators.EditMarkFormValidator;
 
 @Controller
 public class MarksControllers {
-	
+
 	@Autowired
 	private HttpSession httpSession;
 
@@ -52,9 +52,9 @@ public class MarksControllers {
 	public String setMark(@ModelAttribute Mark mark, BindingResult result) {
 		editMarkFormValidator.validate(mark, result);
 		if (result.hasErrors()) {
-		return "mark/add";
+			return "mark/add";
 		}
-		
+
 		marksService.addMark(mark);
 		return "redirect:/mark/list";
 	}
@@ -82,9 +82,9 @@ public class MarksControllers {
 	public String setEdit(Model model, @PathVariable Long id, @Validated Mark mark, BindingResult result) {
 		editMarkFormValidator.validate(mark, result);
 		if (result.hasErrors()) {
-		return "mark/edit";
+			return "mark/edit";
 		}
-		
+
 		Mark original = marksService.getMark(id);
 		original.setScore(mark.getScore());
 		original.setDescription(mark.getDescription());
@@ -93,11 +93,22 @@ public class MarksControllers {
 		marksService.addMark(mark);
 		return "redirect:/mark/details/" + id;
 	}
-	
+
 	@RequestMapping("/mark/list/update")
 	public String updateList(Model model) {
 		model.addAttribute("markList", marksService.getMarks());
 		return "mark/list :: tableMarks";
 	}
 
+	@RequestMapping(value = "/mark/{id}/resend", method = RequestMethod.GET)
+	public String setResendTrue(Model model, @PathVariable Long id) {
+		marksService.setMarkResend(true, id);
+		return "redirect:/mark/list";
+	}
+
+	@RequestMapping(value = "/mark/{id}/noresend", method = RequestMethod.GET)
+	public String setResendFalse(Model model, @PathVariable Long id) {
+		marksService.setMarkResend(false, id);
+		return "redirect:/mark/list";
+	}
 }
