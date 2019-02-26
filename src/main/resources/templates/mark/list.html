@@ -10,7 +10,8 @@
 	<div class="container">
 		<h2 th:text="#{marks}"></h2>
 		<p th:text="#{list.marks.description}"></p>
-		<button type="button" id="updateButton" class="btn btn-default" th:text="#{update}"></button>
+		<button type="button" id="updateButton" class="btn btn-default"
+			th:text="#{update}"></button>
 		<script>
 			$("#updateButton").click(function() {
 				$("#tableMarks").load('/mark/list/update');
@@ -34,9 +35,12 @@
 						<td th:text="${mark.id}">1</td>
 						<td th:text="${mark.description}">Ejercicio 1</td>
 						<td th:text="${mark.score}">10</td>
-						<td><a th:href="${'/mark/details/' + mark.id}" th:text="#{details}"></a></td>
-						<td><a th:href="${'/mark/edit/' + mark.id}" th:text="#{modify}"></a></td>
-						<td><a th:href="${'/mark/delete/' + mark.id}" th:text="#{delete}"></a></td>
+						<td><a th:href="${'/mark/details/' + mark.id}"
+							th:text="#{details}"></a></td>
+						<td><a th:href="${'/mark/edit/' + mark.id}"
+							th:text="#{modify}"></a></td>
+						<td><a th:href="${'/mark/delete/' + mark.id}"
+							th:text="#{delete}"></a></td>
 					</tr>
 				</tbody>
 			</table>
