@@ -31,7 +31,7 @@ public class NotaneitorTests {
 	// En Windows (Debe ser la versión 65.0.1 y desactivar las actualizacioens
 	// automáticas)):
 	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-	static String Geckdriver022 = "D:\\Escritorio\\PL-SDI-Selenium\\geckodriver022win64.exe";
+	static String Geckdriver022 = "D:\\Escritorio\\PL-SDI-Sesión5-material\\geckodriver022win64.exe";
 	// En MACOSX (Debe ser la versión 65.0.1 y desactivar las actualizacioens
 	// automáticas):
 	// static String PathFirefox65 =
@@ -159,7 +159,9 @@ public class NotaneitorTests {
 		// Rellenamos el formulario
 		PO_LoginView.fillForm(driver, "99999993D", "123456");
 		// COmprobamos que entramos en la pagina privada de Alumno
-		PO_View.checkElement(driver, "text", "Agregar Nota");
+
+		//PO_HomeView.clickOption(driver, "dropdown-toggle", "class", "Agregar Nota");
+		PO_View.checkElement(driver, "text", "Notas del usuario");
 	}
 
 	// PRN. Loguearse con exito desde el ROl de admin, 99999988F, 123456
@@ -182,7 +184,6 @@ public class NotaneitorTests {
 		PO_LoginView.fillForm(driver, "99999990A", "123456");
 		// COmprobamos que entramos en la pagina privada de Alumno
 		PO_View.checkElement(driver, "text", "Notas del usuario");
-		PO_View.checkElement(driver, "text", "Ver Notas");
 	}
 
 	// PRN. Loguearse con exito desde el ROl de usuario y logout, 99999990A, 123456
@@ -229,7 +230,7 @@ public class NotaneitorTests {
 		PO_View.checkElement(driver, "text", "Notas del usuario");
 		SeleniumUtils.esperarSegundos(driver, 1);
 		// Contamos las notas
-		By enlace = By.xpath("//td[contains(text(), 'Nota A2')]/followingsibling::*[2]");
+		By enlace = By.xpath("//td[contains(text(), 'Nota A2')]/following-sibling::*[2]");
 		driver.findElement(enlace).click();
 		SeleniumUtils.esperarSegundos(driver, 1);
 		// Esperamos por la ventana de detalle
@@ -287,7 +288,7 @@ public class NotaneitorTests {
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href,'mark/list')]");
 		elementos.get(0).click();
 		// Esperamos a que se muestren los enlaces de paginacion la lista de notas
-		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'pagelink')]");
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
 		// Nos vamos a la última página
 		elementos.get(3).click();
 		// Esperamos a que aparezca la Nueva nota en la ultima pagina
@@ -298,7 +299,7 @@ public class NotaneitorTests {
 				"//td[contains(text(), 'Nota Nueva 1')]/following-sibling::*/a[contains(@href, 'mark/delete')]");
 		elementos.get(0).click();
 		// Volvemos a la última pagina
-		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'pagelink')]");
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
 		elementos.get(3).click();
 		// Y esperamos a que NO aparezca la ultima "Nueva Nota 1"
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Nota Nueva 1", PO_View.getTimeout());
